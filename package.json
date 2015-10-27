@@ -6,9 +6,7 @@
     "name": "Luigi Poole",
     "email": "luigipoole@outlook.com"
   },
-  "keywords": [
-  
-  ],
+  "keywords": [],
   "repository": {
     "type": "git",
     "url": "https://github.com/luigiplr/node-hotspot.git"
@@ -17,7 +15,9 @@
   "license": "GPL-3.0",
   "dependencies": {
     "bluebird": "^2.9.34",
+    "exec": "^0.2.1",
     "lodash": "^3.10.1",
+    "node-windows": "^0.1.10",
     "winreg": "0.0.12"
   }
 }
