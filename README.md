@@ -1,4 +1,4 @@
-node-hotspot
+[WIP] node-hotspot
 --------------
 
 [![npm version](https://badge.fury.io/js/node-hotspot.svg)](http://badge.fury.io/js/node-hotspot)
