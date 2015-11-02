@@ -1,6 +1,6 @@
 {
     "name": "node-hotspot",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Manage, Add & Remove infrastructure mode hotspots on windows, mac & linux",
     "author": {
         "name": "Luigi Poole",
