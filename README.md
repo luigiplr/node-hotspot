@@ -49,11 +49,6 @@ hotspot.status(opts)
         console.log('Hotspot status: ' + status) //status contains clients object and state
     });
 
-hotspot.remove(opts)
-    .then(function(status) {
-        console.log('Hotspot settings purged') 
-    });
-
 ```
 
 Support
