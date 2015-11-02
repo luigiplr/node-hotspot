@@ -27,7 +27,6 @@
     "license": "GPL-3.0",
     "dependencies": {
         "bluebird": "^2.9.34",
-        "exec": "^0.2.1",
         "lodash": "^3.10.1"
     }
 }
