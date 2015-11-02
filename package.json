@@ -1,21 +1,33 @@
 {
-  "name": "node-hotspot",
-  "version": "0.0.0",
-  "description": "Manage, Add & Remove infrastructure mode hotspots on windows, mac & linux",
-  "author": {
-    "name": "Luigi Poole",
-    "email": "luigipoole@outlook.com"
-  },
-  "keywords": [],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/luigiplr/node-hotspot.git"
-  },
-  "main": "index.js",
-  "license": "GPL-3.0",
-  "dependencies": {
-    "bluebird": "^2.9.34",
-    "exec": "^0.2.1",
-    "lodash": "^3.10.1",
-  }
+    "name": "node-hotspot",
+    "version": "0.0.1",
+    "description": "Manage, Add & Remove infrastructure mode hotspots on windows, mac & linux",
+    "author": {
+        "name": "Luigi Poole",
+        "email": "luigipoole@outlook.com"
+    },
+    "keywords": [
+        "wifi",
+        "node-wifi",
+        "infrastructure",
+        "infrastructure-mode",
+        "hotspot",
+        "node-hotspot",
+        "javascript",
+        "multiplatform",
+        "share",
+        "internet",
+        "share-internet"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/luigiplr/node-hotspot.git"
+    },
+    "main": "index.js",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "bluebird": "^2.9.34",
+        "exec": "^0.2.1",
+        "lodash": "^3.10.1"
+    }
 }
