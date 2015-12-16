@@ -1,1 +1,1 @@
-module.exports = require('./lib/hotspot.js');
+module.exports = require('./build/hotspot.js');

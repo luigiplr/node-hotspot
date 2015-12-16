@@ -1,32 +1,40 @@
 {
-    "name": "node-hotspot",
-    "version": "0.0.2",
-    "description": "Manage, Add & Remove infrastructure mode hotspots on windows, mac & linux",
-    "author": {
-        "name": "Luigi Poole",
-        "email": "luigipoole@outlook.com"
-    },
-    "keywords": [
-        "wifi",
-        "node-wifi",
-        "infrastructure",
-        "infrastructure-mode",
-        "hotspot",
-        "node-hotspot",
-        "javascript",
-        "multiplatform",
-        "share",
-        "internet",
-        "share-internet"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/luigiplr/node-hotspot.git"
-    },
-    "main": "index.js",
-    "license": "GPL-3.0",
-    "dependencies": {
-        "bluebird": "^3.0.5",
-        "lodash": "^3.10.1"
-    }
+  "name": "node-hotspot",
+  "version": "0.0.2",
+  "description": "Manage, Add & Remove infrastructure mode hotspots on windows, mac & linux",
+  "author": {
+    "name": "Luigi Poole",
+    "email": "luigipoole@outlook.com"
+  },
+  "scripts": {
+    "build": "rimraf build; babel lib --presets es2015 --out-dir build"
+  },
+  "keywords": [
+    "wifi",
+    "node-wifi",
+    "infrastructure",
+    "infrastructure-mode",
+    "hotspot",
+    "node-hotspot",
+    "javascript",
+    "multiplatform",
+    "share",
+    "internet",
+    "share-internet"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luigiplr/node-hotspot.git"
+  },
+  "main": "index.js",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bluebird": "^3.0.6",
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
+    "rimraf": "^2.4.4"
+  }
 }
