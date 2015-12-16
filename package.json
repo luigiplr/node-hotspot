@@ -7,7 +7,7 @@
     "email": "luigipoole@outlook.com"
   },
   "scripts": {
-    "build": "rimraf build; babel lib --presets es2015 --out-dir build"
+    "build": "rimraf build && babel lib --presets es2015 --out-dir build"
   },
   "keywords": [
     "wifi",
