@@ -1,6 +1,6 @@
 var nodeHotspot = require('../index');
 
 
-nodeHotspot.init()
+nodeHotspot.enable()
     .then(console.log.bind(this, 'Test Hotspot inited!'))
     .catch(console.error)
