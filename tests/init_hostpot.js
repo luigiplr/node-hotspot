@@ -1,4 +1,4 @@
-var nodeHotspot = require('../');
+var nodeHotspot = require('../index');
 
 
 nodeHotspot.init()
