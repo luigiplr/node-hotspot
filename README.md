@@ -6,8 +6,6 @@
 
 Manage, Add & Remove infrastructure mode hotspots on Windows, OSX & Linux (windows only at the moment) ([Ubuntu](http://www.ubuntu.com) & [distros based off of Ubuntu](http://www.omgubuntu.co.uk/2014/06/5-ubuntu-based-distros-better-than-the-real-thing)) for [Node.js](http://nodejs.org) apps.
 
-Note: Module utalizes [ES6](http://www.ecma-international.org/ecma-262/6.0) [features](http://es6-features.org)
-
 
 Installation
 -------
