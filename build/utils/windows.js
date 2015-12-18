@@ -69,7 +69,7 @@ module.exports = {
         var _this3 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _bluebird2.default.all([_this3.exec('netsh wlan show hostednetwork'), _this3.getNetworkAdaptors(), _this3.getInternetConnectedAdaptor()]).spread(function (status, NetworkAdaptors, ConnectedAdaptor) {
+            _bluebird2.default.all([_this3.exec('netsh wlan show hostednetwork'), _this3.getNetworkAdaptors(), _this3.getInternetConnectedAdaptor(), _this3.getCompatible()]).spread(function (status, NetworkAdaptors, ConnectedAdaptor, Compatible) {
                 var output = status.split('Hosted network settings')[1].replace('-----------------------', '').split('Hosted network status')[0].split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean).concat(status.split('Hosted network status')[1].replace('---------------------', '').split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean));
 
                 var statusObject = {};
@@ -77,17 +77,32 @@ module.exports = {
                     if (statusItem.split(':')[0].trim() === 'SSID name') var parm = statusItem.split(':')[1].trim().substring(1, statusItem.split(':')[1].trim().length - 1);else var parm = statusItem.split(':').length > 2 ? statusItem.split(':').splice(0, 1).join(':').trim() : statusItem.split(':')[1].trim();
                     statusObject[statusItem.split(':')[0].trim()] = parm;
                 });
+                statusObject['compatible'] = Compatible;
                 statusObject['networkAdaptors'] = NetworkAdaptors;
                 statusObject['connectedAdaptor'] = ConnectedAdaptor;
                 resolve(statusObject);
             }).catch(reject);
         });
     },
-    getNetworkAdaptors: function getNetworkAdaptors() {
+    getCompatible: function getCompatible() {
         var _this4 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this4.exec('powershell "Get-NetAdapter | ft Name, Status, ifIndex, MacAddress, InterfaceDescription"').then(function (output) {
+            _this4.exec('netsh wlan show drivers').then(function (output) {
+                var networkData = output.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
+
+                var matches = _lodash2.default.filter(networkData, function (line) {
+                    return line.indexOf('Hosted network supported') !== -1;
+                })[0].split(':').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
+                resolve(matches[1] === 'Yes');
+            }).catch(reject);
+        });
+    },
+    getNetworkAdaptors: function getNetworkAdaptors() {
+        var _this5 = this;
+
+        return new _bluebird2.default(function (resolve, reject) {
+            _this5.exec('powershell "Get-NetAdapter | ft Name, Status, ifIndex, MacAddress, InterfaceDescription"').then(function (output) {
                 var networkData = output.split('--------------------')[1].split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
 
                 var networkAdaptors = [];
@@ -106,17 +121,16 @@ module.exports = {
         });
     },
     getInternetConnectedAdaptor: function getInternetConnectedAdaptor() {
-        var _this5 = this;
+        var _this6 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this5.exec('powershell "Get-NetConnectionProfile"').then(function (output) {
+            _this6.exec('powershell "Get-NetConnectionProfile"').then(function (output) {
                 var networkData = output.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
-
                 var statusObject = {};
                 networkData.forEach(function (statusItem) {
                     statusObject[statusItem.split(':')[0].trim()] = statusItem.split(':')[1].trim();
                 });
-                _this5.getLocalIp(statusObject.InterfaceIndex).then(function (ip) {
+                _this6.getLocalIp(statusObject.InterfaceIndex).then(function (ip) {
                     statusObject['ip'] = ip;
                     resolve(statusObject);
                 });
@@ -124,19 +138,19 @@ module.exports = {
         });
     },
     getLocalIp: function getLocalIp(AdapterID) {
-        var _this6 = this;
+        var _this7 = this;
 
         return new _bluebird2.default(function (resolve) {
-            _this6.exec(_util2.default.format('powershell "(Get-NetAdapter -ifIndex "%s" | Get-NetIPAddress).IPv4Address"', AdapterID)).then(function (output) {
+            _this7.exec(_util2.default.format('powershell "(Get-NetAdapter -ifIndex "%s" | Get-NetIPAddress).IPv4Address"', AdapterID)).then(function (output) {
                 resolve(output.replace('\n', '').replace('\r', ''));
             });
         });
     },
     getClients: function getClients(opts) {
-        var _this7 = this;
+        var _this8 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this7.getStatus().then(function (statusObject) {
+            _this8.getStatus().then(function (statusObject) {
                 resolve({
                     connected: statusObject.Status === 'Started' ? parseInt(statusObject['Number of clients']) : 0,
                     max: parseInt(statusObject['Max number of clients'])
@@ -145,13 +159,13 @@ module.exports = {
         });
     },
     create: function create(name, key) {
-        var _this8 = this;
+        var _this9 = this;
 
         console.log('Configuring hotspot with SSID:', name);
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this8.exec('netsh wlan set hostednetwork mode=allow').then(function () {
-                return _this8.exec(_util2.default.format('netsh wlan set hostednetwork ssid="%s" key="%s" keyUsage=temporary', name, key));
+            _this9.exec('netsh wlan set hostednetwork mode=allow').then(function () {
+                return _this9.exec(_util2.default.format('netsh wlan set hostednetwork ssid="%s" key="%s" keyUsage=temporary', name, key));
             }).then(resolve).catch(reject);
         });
     },
