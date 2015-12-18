@@ -7,8 +7,8 @@
     "email": "luigipoole@outlook.com"
   },
   "scripts": {
-    "postinstall": "npm run build",
-    "build": "babel lib --presets es2015 --out-dir build"
+    "postinstall": "babel ./lib --presets es2015 --out-dir ./build",
+    "build": "babel ./lib --presets es2015 --out-dir ./build"
   },
   "keywords": [
     "wifi",
