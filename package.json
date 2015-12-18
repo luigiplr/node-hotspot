@@ -1,14 +1,14 @@
 {
   "name": "node-hotspot",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Manage, Add & Remove infrastructure mode hotspots on windows, mac & linux",
   "author": {
     "name": "Luigi Poole",
     "email": "luigipoole@outlook.com"
   },
   "scripts": {
-    "postinstall": "npm run build",
-    "build": "node ./node_modules/babel-cli/bin/babel ./lib --presets es2015 --out-dir ./build"
+    "prepublish": "npm run build",
+    "build": "babel lib --presets es2015 --out-dir build"
   },
   "keywords": [
     "wifi",
