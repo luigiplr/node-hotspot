@@ -12,6 +12,10 @@ var _util = require('util');
 
 var _util2 = _interopRequireDefault(_util);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 var _child_process = require('child_process');
 
 var _child_process2 = _interopRequireDefault(_child_process);
@@ -50,7 +54,7 @@ module.exports = {
                 }), 'name');
             }).then(function (hostedNetwork) {
                 console.log('Configuring ICS to share:', _this.ConnectedAdaptor);
-                return _this.exec(_util2.default.format('"bin/win32/IcsManager.exe" enable "%s" "%s" true', _this.ConnectedAdaptor, hostedNetwork));
+                return _this.exec(_util2.default.format('"%s" enable "%s" "%s" true', _path2.default.join(__dirname, '../../', 'bin/win32/IcsManager.exe'), _this.ConnectedAdaptor, hostedNetwork));
             }).then(function () {
                 return console.log('ICS Configuration successful!');
             }).then(resolve).catch(reject);
