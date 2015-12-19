@@ -22,6 +22,10 @@ var _child_process2 = _interopRequireDefault(_child_process);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var getPowershell = function getPowershell() {
+    return _path2.default.join(process.env.windir, process.arch === 'ia32' ? 'SysWOW64/WindowsPowerShell/v1.0/powershell.exe' : 'System32/WindowsPowerShell/v1.0/powershell.exe');
+};
+
 module.exports = {
     enable: function enable(opts) {
         var _this = this;
@@ -113,7 +117,7 @@ module.exports = {
         var _this5 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this5.exec('powershell "Get-NetAdapter | ft Name, Status, ifIndex, MacAddress, InterfaceDescription"').then(function (output) {
+            _this5.exec(_util2.default.format('"%s" "Get-NetAdapter | ft Name, Status, ifIndex, MacAddress, InterfaceDescription"', getPowershell())).then(function (output) {
                 var networkData = output.split('--------------------')[1].split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
 
                 var networkAdaptors = [];
@@ -135,7 +139,7 @@ module.exports = {
         var _this6 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this6.exec('powershell "Get-NetConnectionProfile"').then(function (output) {
+            _this6.exec(_util2.default.format('"%s" "Get-NetConnectionProfile"', getPowershell())).then(function (output) {
                 var networkData = output.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
                 var statusObject = {};
                 networkData.forEach(function (statusItem) {
@@ -152,7 +156,7 @@ module.exports = {
         var _this7 = this;
 
         return new _bluebird2.default(function (resolve) {
-            _this7.exec(_util2.default.format('powershell "(Get-NetAdapter -ifIndex "%s" | Get-NetIPAddress).IPv4Address"', AdapterID)).then(function (output) {
+            _this7.exec(_util2.default.format('"%s" "(Get-NetAdapter -ifIndex "%s" | Get-NetIPAddress).IPv4Address"', getPowershell(), AdapterID)).then(function (output) {
                 resolve(output.replace('\n', '').replace('\r', ''));
             });
         });
