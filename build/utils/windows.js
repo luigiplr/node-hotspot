@@ -30,7 +30,7 @@ module.exports = {
 
             if (opts.force) {
                 opts.force = false;
-                return _this.disable().then(_this.enable.bind(_this, opts)).catch(reject);
+                return _this.disable().then(_this.enable.bind(_this, opts)).then(resolve).catch(reject);
             }
 
             _this.create(opts.ssid, opts.password).then(function () {
