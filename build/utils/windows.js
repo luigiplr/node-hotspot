@@ -39,6 +39,10 @@ module.exports = {
                         _this.ConnectedAdaptor = opts.adaptor;
                         return resolve();
                     }
+                    if (opts.adaptor === false) {
+                        _this.ConnectedAdaptor = false;
+                        return resolve();
+                    }
                     _this.getInternetConnectedAdaptor().then(function (ConnectedAdaptor) {
                         _this.ConnectedAdaptor = ConnectedAdaptor.InterfaceAlias;
                         resolve();
@@ -53,8 +57,11 @@ module.exports = {
                     return adaptor.interface === 'Microsoft Hosted Network Virtual Adapter';
                 }), 'name');
             }).then(function (hostedNetwork) {
-                console.log('Configuring ICS to share:', _this.ConnectedAdaptor);
-                return _this.exec(_util2.default.format('"%s" enable "%s" "%s" true', _path2.default.join(__dirname, '../../', 'bin/win32/IcsManager.exe'), _this.ConnectedAdaptor, hostedNetwork));
+                return new _bluebird2.default(function (resolve, reject) {
+                    if (_this.ConnectedAdaptor) _lodash2.default.delay(function () {
+                        _this.exec(_util2.default.format('"%s" enable "%s" "%s" true', _path2.default.join(__dirname, '../../', 'bin/win32/IcsManager.exe'), _this.ConnectedAdaptor, hostedNetwork)).then(resolve).catch(reject);
+                    }, 500);else resolve();
+                });
             }).then(function () {
                 return console.log('ICS Configuration successful!');
             }).then(resolve).catch(reject);
