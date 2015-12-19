@@ -4,7 +4,9 @@
 [![npm version](https://badge.fury.io/js/node-hotspot.svg)](http://badge.fury.io/js/node-hotspot)
 
 
-Manage, Add & Remove infrastructure mode hotspots on Windows, OSX & Linux (windows only at the moment) ([Ubuntu](http://www.ubuntu.com) & [distros based off of Ubuntu](http://www.omgubuntu.co.uk/2014/06/5-ubuntu-based-distros-better-than-the-real-thing)) for [Node.js](http://nodejs.org) apps.
+Manage, Add & Remove infrastructure mode hotspots on Windows 7+ for [Node.js](http://nodejs.org) apps.
+
+Node-hotspot 
 
 
 Installation
@@ -22,8 +24,9 @@ var hotspot = require('node-hotspot');
 
 var opts = {
     ssid: 'hotspot name', 
-    password: '66ahhhs641jk',
-    force: true // if hosting a network already turn it off and run ours.
+    password: '66ahhhs641jk', 
+    force: true, // (optional)  if hosting a network already turn it off and run ours.
+    adaptor: 'Ethernet' // (optional / false) name of adaptor to have ICS (Internet Connection Sharing) share internet from, passing false disables ICS all together - if non givin node-hotspot will attempt to find currently connected adaptor automatically
 };
 
 hotspot.enable(opts)
