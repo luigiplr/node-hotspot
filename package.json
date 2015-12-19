@@ -1,6 +1,6 @@
 {
   "name": "node-hotspot",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Manage, Add & Remove infrastructure mode hotspots on Windows 7+",
   "author": {
     "name": "Luigi Poole",

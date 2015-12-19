@@ -23,7 +23,7 @@ var _child_process2 = _interopRequireDefault(_child_process);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getPowershell = function getPowershell() {
-    return _path2.default.join(process.env.windir, process.arch === 'ia32' ? 'SysWOW64/WindowsPowerShell/v1.0/powershell.exe' : 'System32/WindowsPowerShell/v1.0/powershell.exe');
+    return _path2.default.join(process.env.windir, process.env.PROCESSOR_ARCHITECTURE === 'AMD64' ? 'System32/WindowsPowerShell/v1.0/powershell.exe' : 'SysWOW64/WindowsPowerShell/v1.0/powershell.exe');
 };
 
 module.exports = {
