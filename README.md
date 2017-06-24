@@ -45,7 +45,7 @@ hotspot.disable(opts)
         Console.log('Something went wrong; Perms?', e)
     });
 
-hotspot.status(opts)
+hotspot.stats(opts)
     .then(function(status) {
         console.log('Hotspot status: ' + status) //status contains clients object and state
     });
