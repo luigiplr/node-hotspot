@@ -34,7 +34,7 @@ hotspot.enable(opts)
         console.log('Hotspot Enabled')
     })
     .catch(function(e) {
-        Console.log('Something went wrong; Perms?', e)
+        console.log('Something went wrong; Perms?', e)
     });
 
 hotspot.disable(opts)
@@ -42,7 +42,7 @@ hotspot.disable(opts)
         console.log('Hotspot disabled')
     })
     .catch(function(e) {
-        Console.log('Something went wrong; Perms?', e)
+        console.log('Something went wrong; Perms?', e)
     });
 
 hotspot.stats(opts)
