@@ -104,7 +104,6 @@ module.exports = {
 
         return new _bluebird2.default(function (resolve, reject) {
             _this4.exec('chcp 65001 && netsh wlan show drivers').then(function (output) {
-                console.log(output)
                 var networkData = output.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
 
                 var matches = _lodash2.default.filter(networkData, function (line) {
