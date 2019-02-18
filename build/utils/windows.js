@@ -52,7 +52,7 @@ module.exports = {
                 });
             }).then(function () {
                 console.log('Starting hotspot');
-                return _this.exec('netsh wlan start hostednetwork');
+                return _this.exec('chcp 65001 && netsh wlan start hostednetwork');
             }).then(_this.getNetworkAdaptors.bind(_this)).then(function (NetworkAdaptors) {
                 console.log('Hotspot started!');
                 return _lodash2.default.result(_lodash2.default.find(NetworkAdaptors, function (adaptor) {
@@ -73,8 +73,8 @@ module.exports = {
         var _this2 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this2.exec('netsh wlan stop hostednetwork').then(function () {
-                return _this2.exec('netsh wlan set hostednetwork mode=disallow');
+            _this2.exec('chcp 65001 && netsh wlan stop hostednetwork').then(function () {
+                return _this2.exec('chcp 65001 && netsh wlan set hostednetwork mode=disallow');
             }).then(resolve).catch(reject);
         });
     },
@@ -83,7 +83,7 @@ module.exports = {
 
         return new _bluebird2.default(function (resolve, reject) {
             _this3.getArch().then(function () {
-                return _bluebird2.default.all([_this3.exec('netsh wlan show hostednetwork'), _this3.getNetworkAdaptors(), _this3.getInternetConnectedAdaptor(), _this3.getCompatible()]);
+                return _bluebird2.default.all([_this3.exec('chcp 65001 && netsh wlan show hostednetwork'), _this3.getNetworkAdaptors(), _this3.getInternetConnectedAdaptor(), _this3.getCompatible()]);
             }).spread(function (status, NetworkAdaptors, ConnectedAdaptor, Compatible) {
                 var output = status.split('Hosted network settings')[1].replace('-----------------------', '').split('Hosted network status')[0].split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean).concat(status.split('Hosted network status')[1].replace('---------------------', '').split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean));
 
@@ -103,7 +103,7 @@ module.exports = {
         var _this4 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this4.exec('netsh wlan show drivers').then(function (output) {
+            _this4.exec('chcp 65001 && netsh wlan show drivers').then(function (output) {
                 var networkData = output.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
 
                 var matches = _lodash2.default.filter(networkData, function (line) {
@@ -142,6 +142,11 @@ module.exports = {
             _this6.exec(_util2.default.format('"%s" "Get-NetConnectionProfile"', _this6.getPowershell())).then(function (output) {
                 var networkData = output.split('\n').map(Function.prototype.call, String.prototype.trim).filter(Boolean);
                 var statusObject = {};
+
+                // adapter is not connected to a network
+                if (networkData.length == 0) {
+                    return resolve(statusObject);
+                }
                 networkData.forEach(function (statusItem) {
                     statusObject[statusItem.split(':')[0].trim()] = statusItem.split(':')[1].trim();
                 });
@@ -179,7 +184,7 @@ module.exports = {
         console.log('Configuring hotspot with SSID:', name);
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this9.exec('netsh wlan set hostednetwork mode=allow').then(function () {
+            _this9.exec('chcp 65001 && netsh wlan set hostednetwork mode=allow').then(function () {
                 return _this9.exec(_util2.default.format('netsh wlan set hostednetwork ssid="%s" key="%s" keyUsage=temporary', name, key));
             }).then(resolve).catch(reject);
         });
@@ -188,7 +193,7 @@ module.exports = {
         var _this10 = this;
 
         return new _bluebird2.default(function (resolve, reject) {
-            _this10.exec('wmic os get osarchitecture').then(function (osArch) {
+            _this10.exec('chcp 65001 && wmic os get osarchitecture').then(function (osArch) {
                 if (osArch.split('\n')[1].match(/64/)) _this10.arch = 'x64';
                 return resolve();
             }).catch(reject);
@@ -198,9 +203,9 @@ module.exports = {
         if (this.arch === 'x64' && process.arch === 'ia32') return _path2.default.join(process.env.windir, 'sysnative/WindowsPowerShell/v1.0/powershell.exe');else return _path2.default.join(process.env.windir, 'System32/WindowsPowerShell/v1.0/powershell.exe');
     },
     exec: function exec(args) {
-        var options = arguments.length <= 1 || arguments[1] === undefined ? {
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
             env: {}
-        } : arguments[1];
+        };
 
         return new _bluebird2.default(function (resolve, reject) {
             options.env = _lodash2.default.defaultsDeep(options.env, process.env);
